@@ -1,0 +1,113 @@
+/* *{ border: solid 1px black;} */
+:root{
+  --headerColor: #343A40;
+  --headerOffWhite:#FFFFFF ;
+  --sepertorLineMarkers : rgb(226, 226, 226) ;
+}
+
+main{
+  display: flex;
+  /* flex-direction: column; */
+}
+.headerBox{
+background: var(--headerColor);
+padding: 10px ;
+}
+
+.headerText{
+  text-align: center;
+  margin: 0;
+  font-size: 40px;
+  color: var(--headerOffWhite);
+}
+
+
+
+#mainContentBox{
+  display: flex;
+  min-height: 400px;
+}
+
+.previouslySearchedCitys{
+  border: solid 1px black; 
+  padding: 10px 0px 10px 10px;
+  font-size: 130%;
+  margin: 5px auto;
+}
+#searchFieldWrapper{
+  display: flex;
+  flex-direction: row;
+}
+.searchWrapper{
+  border-right: solid 1px var(--sepertorLineMarkers) ;
+  padding: 5px;
+}
+
+#citySearchInputBox{
+  min-height: 35px;
+  
+}
+
+#citySearchButton{
+  background-color: rgb(57, 57, 255);
+  border-radius: 5px;
+  border:solid 3px rgb(141, 193, 253);
+  min-height: 42px;
+  min-width: 50px;
+}
+#weatherDisplayWrapper{
+  min-width: 100%;
+}
+#cityInformationWrapper{
+  display: flex;
+  padding-left: 10% ;
+  flex-direction: column;
+}
+
+#cityDisplayDateAndTime {
+font-size: 290%;
+font-weight: 700;
+margin-top: 10px;
+}
+
+.cityDisplayDetails{
+margin: 25px 0px;
+font-family: sans-serif;
+font-size: 150%;
+text-decoration: underline;
+}
+
+.fiveDayForcastDiv{
+ flex-direction: column;
+  border-top: solid 1px var(--sepertorLineMarkers) ;
+  min-height: 200px;
+  padding-top: 5px;
+
+}
+
+.daysDisplayBox{
+  min-width:130px ;
+  min-height: 150px;
+  background-color: #1c9cf6;
+  margin: 12px 50px 12px 0px ;
+  border-radius: 5px;
+  
+
+}
+#fiveDayForcastwrapper{
+  display: flex;
+  flex-direction: row;
+  padding-left: 10%;
+  border-top: solid 1px var(--sepertorLineMarkers);
+}
+
+.footerBox{
+  /* position: sticky; */
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background: var(--headerColor);
+  min-height: 25px;
+  text-align: center;
+  color: var(--headerOffWhite);
+}

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather application Your timezones Weather </title>
+  <link rel="stylesheet" href="./assets/css/reset.css">
+  <link rel="stylesheet" href="./assets/css/style.css">
+</head>
+
+<body>
+  <header class="headerBox">
+    <p class="headerText">Weather Dashboard</p>
+  </header>
+  <Main id="mainContentBox">
+    <section class="searchWrapper">
+      <div id="searchFieldWrapper">
+        <input id="citySearchInputBox" type="text" placeholder="City Search">
+        <button id="citySearchButton">🔍</button>
+      </div>
+      <div class="previouslySearchedCitys">melbourne</div>
+      <div class="previouslySearchedCitys">Sydney</div>
+    </section>
+    <div id="weatherDisplayWrapper">
+      <section id="cityInformationWrapper">
+        <div id="cityDisplayDateAndTime">Melbourne 7:00 🌡️</div>
+        <div class="cityDisplayDetails temperature">Temperature : 30° C
+        </div>
+        <div class="cityDisplayDetails humidity">Humidity : 30% 🌧️
+        </div>
+        <div class="cityDisplayDetails wind">Wind Speed : 5km/h 🌪️
+        </div>
+        <div class="cityDisplayDetails uvIndex">UV Index : 11
+      </section>
+
+      <section id="fiveDayForcastwrapper">
+
+        <div class="daysDisplayBox"></div>
+        <div class="daysDisplayBox"></div>
+        <div class="daysDisplayBox"></div>
+        <div class="daysDisplayBox"></div>
+        <div class="daysDisplayBox"></div>
+
+      </section>
+    </div>
+
+
+  </Main>
+
+  <footer class="footerBox">
+    Footer
+  </footer>
+</body>
+
+</html>
