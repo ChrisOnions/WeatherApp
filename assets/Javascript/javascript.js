@@ -126,10 +126,9 @@ searchButton.addEventListener("click", function () {
     var cityName = document.getElementById("citySearchInputBox").value.trim();
     if (cityName == ""){
       alert("Enter city")
-      
     }
     else{
-      
+      //change to add item to local city
       localStorage.setItem("PreviousSearches" , cityName )
     }
 
@@ -146,6 +145,6 @@ searchButton.addEventListener("click", function () {
       console.log(data)
       longitude = data.coord.lon
       latitude = data.coord.lat
-      callWeatherApi();
     })
+    callWeatherApi();
   }
