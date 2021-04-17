@@ -2,6 +2,8 @@ var cityInputBox = document.getElementById("citySearchInputBox")
 var searchButton = document.getElementById("citySearchButton")
 var forecastWrapper = document.getElementById("fiveDayForecastwrapper")
 var forecastBoxs = document.getElementsByClassName("dayDisplayBox")
+let searchwrapperArea = document.getElementById("searchWrapper")
+
 const apiKey = "2396a268680cfdce876c4c2db720ae62";
 const unit = "metric";
 var cityName = ""
@@ -31,7 +33,6 @@ function callWeatherApi(lat, lon){
         DisplayElements(data)
         populateFiveDayforecast(data)
     })
-    
 }
 
 
@@ -66,7 +67,7 @@ function timeConverter(UNIX_timestamp){
 
 function populateFiveDayforecast(data){
   forecastWrapper.innerHTML = "";
-    for (i = 1; i <= 5 ; i++) {
+    for (i = 0; i <= 4 ; i++) {
       
       let dailyVariablesObj = {
         date: timeConverter(data.daily[i].dt),
@@ -75,16 +76,12 @@ function populateFiveDayforecast(data){
         humidity: data.daily[i].humidity
       }
       let iconUrl = "http://openweathermap.org/img/w/" + dailyVariablesObj.icon +".png"
-      console.log(i)
-      console.log("this is the object" + dailyVariablesObj.date)
-      console.log("this is the icon"+ dailyVariablesObj.icon)
 
       let forecastDaily = document.createElement("div")
       forecastDaily.setAttribute("class","daysDisplayBox")
       forecastWrapper.append(forecastDaily)
 
       let displayBoxes = document.getElementsByClassName("daysDisplayBox")
-      console.log(displayBoxes)
 
       let dailyDate = document.createElement("h2")
       displayBoxes[i].appendChild(dailyDate)
@@ -107,18 +104,29 @@ function populateFiveDayforecast(data){
 // changeP.setAttribute("style", "font-size: 25px; font-weight: bold; text-decoration:underline; ")
 
 searchButton.addEventListener("click", function () {
+  cityName = document.getElementById("citySearchInputBox").value.trim();
   getcityLatLong();
 })
+function searchHistoryEventHandler(){
+  searchHistory.forEach(element => {
+    let searchButtonEl = document.createElement("button")
+    searchButtonEl.innerHTML = element
+    searchButtonEl.className = "previouslySearchedCitys"
+    searchwrapperArea.appendChild(searchButtonEl)
+    searchButtonEl.addEventListener("click", function () {
 
-
-
-
+      cityInputBox.textContent = this.textContent
+      
+      getcityLatLong(cityInputBox.textContent)
+    })
+  })
+}
+searchHistoryEventHandler();
   // Get long and lat of the city searched 
 
-function getcityLatLong(){
-  cityName = document.getElementById("citySearchInputBox").value.trim();
+function getcityLatLong(cityName){
   if (!cityName){
-    alert("plese enter somthing")
+    alert("plese enter somthing valid")
     return
   }
   let cityNameDisplayEl = document.getElementById("cityname")

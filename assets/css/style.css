@@ -39,12 +39,15 @@ main {
   display: flex;
   flex-direction: row;
 }
-.searchWrapper {
+#searchWrapper {
   border-right: solid 1px var(--sepertorLineMarkers);
   padding: 5px;
   min-height: 680px;
 }
-
+#cityname {
+  font-size: 50px;
+  font-weight: bolder;
+}
 #citySearchInputBox {
   min-height: 35px;
 }
@@ -63,6 +66,8 @@ main {
   display: flex;
   padding-left: 10%;
   flex-direction: column;
+  margin-bottom: 50px;
+  margin-top: 30px;
 }
 
 #cityDisplayDateAndTime {
