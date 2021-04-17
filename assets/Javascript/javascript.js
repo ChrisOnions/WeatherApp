@@ -2,63 +2,56 @@ var cityInputBox = document.getElementById("citySearchInputBox")
 var searchButton = document.getElementById("citySearchButton")
 var forecastWrapper = document.getElementById("fiveDayForecastwrapper")
 var forecastBoxs = document.getElementsByClassName("dayDisplayBox")
-var latitude ;
-var longitude ;
-var DataWeather ;
-var apiKey = "2396a268680cfdce876c4c2db720ae62";
-var unit = "metric";
+const apiKey = "2396a268680cfdce876c4c2db720ae62";
+const unit = "metric";
+var cityName = ""
 
-
-
-
-var requestURL = "https://api.openweathermap.org/data/2.5/onecall";
-requestURL += "?lat=" + latitude; 
-requestURL += "&lon=" + longitude;
-requestURL += "&appid=" + apiKey;
-requestURL += "&units=" + unit;
+var searchHistory = JSON.parse(localStorage.getItem("PreviousSearches")) || []
 
 // Fetch seven day forecast Data using lon & lat  
-function callWeatherApi(){
+function callWeatherApi(lat, lon){
+
+  var requestURL = "https://api.openweathermap.org/data/2.5/onecall";
+  requestURL += "?lat=" + lat; 
+  requestURL += "&lon=" + lon;
+  requestURL += "&appid=" + apiKey;
+  requestURL += "&units=" + unit;
+
   fetch(requestURL)
+
     .then(function(response) { 
         if (!response.ok) {
-            throw Error(response.message);
+          console.log("Response not ok");
         }
-        return response.json()
-    })
-    .then(function(data) {
-        console.log(data)
-        DataWeather = data;
-        var dailyArray = data.daily;
-        var thirdDay = dailyArray[2];
-        var thirdDayTemp = thirdDay.temp;
-        var thirdDayMax = thirdDayTemp.max;
-        console.log("Third Day Max", thirdDayMax)
+        else{
+          return response.json()
+        }
+      })
+      .then( data => {
         DisplayElements(data)
         populateFiveDayforecast(data)
     })
-    .catch((error) =>{
-      console.log("Error", error)
-    });
+    
 }
 
 
-function DisplayElements (weatherData){
-  var cityTimeVar = document.getElementById("cityDisplayDateAndTime")
+function DisplayElements (data){
+  let cityTimeVar = document.getElementById("cityDisplayDateAndTime")
   var temp = document.getElementById("temperature")
   var humidity = document.getElementById("humidity")
   var wind = document.getElementById("wind")
   var uv = document.getElementById("uvIndex")
-  var convertedTime = DataWeather.daily[0].dt
+  var convertedTime = data.daily[0].dt
   
   convertedTime =  timeConverter(convertedTime);
   
   //Set new inner html with new variables
-    cityTimeVar.innerHTML = DataWeather.timezone +" - " + convertedTime 
-    temp.innerHTML = "Temperature: " + weatherData.daily[0].temp["day"] + "°C"
-    humidity.innerHTML = "Humidity: " + weatherData.daily[0].humidity + "%"
-    wind.innerHTML = "Wind: " + weatherData.daily[0].wind_speed + "m/s"
-    uv.innerHTML = "UV Index : " +weatherData.daily[0].uvi
+  console.log(data)
+    cityTimeVar.innerHTML = convertedTime 
+    temp.innerHTML = "Temperature: " + data.daily[0].temp["day"] + "°C"
+    humidity.innerHTML = "Humidity: " + data.daily[0].humidity + "%"
+    wind.innerHTML = "Wind: " + data.daily[0].wind_speed + "m/s"
+    uv.innerHTML = "UV Index : " +data.daily[0].uvi
 
 }
 function timeConverter(UNIX_timestamp){
@@ -67,32 +60,30 @@ function timeConverter(UNIX_timestamp){
   var year = a.getFullYear();
   var month = months[a.getMonth()];
   var date = a.getDate();
-  var hour = a.getHours();
-  var min = a.getMinutes();
-  var sec = a.getSeconds();
   var time = date + ' ' + month + ' ' + year  ;
   return time;
 };
 
-function populateFiveDayforecast(weatherData){
-    for (i = 0; i <= 4 ; i++) {
+function populateFiveDayforecast(data){
+  forecastWrapper.innerHTML = "";
+    for (i = 1; i <= 5 ; i++) {
       
-      var dailyVariablesObj = {
-        date: timeConverter(DataWeather.daily[i].dt),
-        icon: DataWeather.daily[i].weather[0].icon,
-        temp: DataWeather.daily[i].temp.day,
-        humidity: DataWeather.daily[i].humidity
+      let dailyVariablesObj = {
+        date: timeConverter(data.daily[i].dt),
+        icon: data.daily[i].weather[0].icon,
+        temp: data.daily[i].temp.day,
+        humidity: data.daily[i].humidity
       }
-      var iconUrl = "http://openweathermap.org/img/w/" + dailyVariablesObj.icon +".png"
+      let iconUrl = "http://openweathermap.org/img/w/" + dailyVariablesObj.icon +".png"
       console.log(i)
       console.log("this is the object" + dailyVariablesObj.date)
       console.log("this is the icon"+ dailyVariablesObj.icon)
 
-      var forecastDaily = document.createElement("div")
+      let forecastDaily = document.createElement("div")
       forecastDaily.setAttribute("class","daysDisplayBox")
       forecastWrapper.append(forecastDaily)
-      
-      var displayBoxes = document.getElementsByClassName("daysDisplayBox")
+
+      let displayBoxes = document.getElementsByClassName("daysDisplayBox")
       console.log(displayBoxes)
 
       let dailyDate = document.createElement("h2")
@@ -117,34 +108,36 @@ function populateFiveDayforecast(weatherData){
 
 searchButton.addEventListener("click", function () {
   getcityLatLong();
-  
-  });
+})
+
+
 
 
   // Get long and lat of the city searched 
-  function getcityLatLong(){
-    var cityName = document.getElementById("citySearchInputBox").value.trim();
-    if (cityName == ""){
-      alert("Enter city")
-    }
-    else{
-      //change to add item to local city
-      localStorage.setItem("PreviousSearches" , cityName )
-    }
 
-    let latlongcall ="https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + apiKey
-    
-    fetch(latlongcall)
-      .then(function(response) { 
-        if (!response.ok) {
-            throw Error(response.message);
-        }
-        return response.json()
-    })
-    .then(function(data) {
-      console.log(data)
-      longitude = data.coord.lon
-      latitude = data.coord.lat
-    })
-    callWeatherApi();
+function getcityLatLong(){
+  cityName = document.getElementById("citySearchInputBox").value.trim();
+  if (!cityName){
+    alert("plese enter somthing")
+    return
   }
+  let cityNameDisplayEl = document.getElementById("cityname")
+  //change to add item to local city
+  
+  let latlongcall ="https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + apiKey
+  
+  fetch(latlongcall)
+
+  .then(response => response.json())
+
+  .then( data => {
+    cityNameDisplayEl.textContent = data.name
+    searchHistory.push(data.name)
+    localStorage.setItem("PreviousSearches" , JSON.stringify(searchHistory))
+    callWeatherApi(data.coord.lat, data.coord.lon)
+  })
+  .catch((error) => {
+    console.log("error = ", error)
+  })
+
+}

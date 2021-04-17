@@ -1,6 +1,3 @@
-* {
-  border: solid 1px black;
-}
 :root {
   --headerColor: #343a40;
   --headerOffWhite: #ffffff;
@@ -45,6 +42,7 @@ main {
 .searchWrapper {
   border-right: solid 1px var(--sepertorLineMarkers);
   padding: 5px;
+  min-height: 680px;
 }
 
 #citySearchInputBox {
