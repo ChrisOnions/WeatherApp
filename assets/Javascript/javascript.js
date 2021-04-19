@@ -106,7 +106,8 @@ function populateFiveDayforecast(data){
 searchButton.addEventListener("click", function () {
   cityName = document.getElementById("citySearchInputBox").value.trim();
   getcityLatLong();
-})
+});
+
 function searchHistoryEventHandler(){
   searchHistory.forEach(element => {
     let searchButtonEl = document.createElement("button")
@@ -125,6 +126,7 @@ searchHistoryEventHandler();
   // Get long and lat of the city searched 
 
 function getcityLatLong(cityName){
+  cityName = document.getElementById("citySearchInputBox").value.trim();
   if (!cityName){
     alert("plese enter somthing valid")
     return
