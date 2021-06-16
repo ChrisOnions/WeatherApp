@@ -124,26 +124,26 @@ searchHistoryEventHandler();
 // Get long and lat of the city searched 
 
 function getcityLatLong(cityName) {
-  if (cityName == "")
+  if (cityName == "") {
     cityName = document.getElementById("citySearchInputBox").value.trim();
-  else {
-    let cityNameDisplayEl = document.getElementById("cityname")
-    //change to add item to local city
-
-    let latlongcall = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + apiKey
-
-    fetch(latlongcall)
-
-      .then(response => response.json())
-
-      .then(data => {
-        cityNameDisplayEl.textContent = data.name
-        searchHistory.push(data.name)
-        localStorage.setItem("PreviousSearches", JSON.stringify(searchHistory))
-        callWeatherApi(data.coord.lat, data.coord.lon)
-      })
-      .catch((error) => {
-        console.log("error = ", error)
-      })
   }
+  let cityNameDisplayEl = document.getElementById("cityname")
+  //change to add item to local city
+
+  let latlongcall = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + apiKey
+
+  fetch(latlongcall)
+
+    .then(response => response.json())
+
+    .then(data => {
+      cityNameDisplayEl.textContent = data.name
+      searchHistory.push(data.name)
+      localStorage.setItem("PreviousSearches", JSON.stringify(searchHistory))
+      callWeatherApi(data.coord.lat, data.coord.lon)
+    })
+    .catch((error) => {
+      console.log("error = ", error)
+    })
+}
 }
