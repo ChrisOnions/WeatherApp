@@ -146,4 +146,3 @@ function getcityLatLong(cityName) {
       console.log("error = ", error)
     })
 }
-}
